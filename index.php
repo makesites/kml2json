@@ -94,7 +94,11 @@ function getStyle( $id ){
 	foreach( $stylemaps as $stylemap ){
 		if( $stylemap->key == "normal" ){ 
 			$style = $xml->xpath("//Style[@id='". substr($stylemap->styleUrl , 1) ."']");
-			return substr( (string)$style[0]->PolyStyle->color, 2);
+			// order of commands: 
+			// - convert the color object to string
+			// - remove the first two characters that are always "ff" (for undetermined reasons)
+			// - reverse the definition of the hex color (again for undetermined reasons)
+			return strrev( substr( (string)$style[0]->PolyStyle->color, 2) );
 		}
 	}
 }
